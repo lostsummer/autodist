@@ -57,12 +57,16 @@ class PackProducer:
         print('得到文件：' + local_path)
         pattern = re.compile('.+IP_PACKET_DATA_SIZE.+;')
         lines = []
-        for line in open(local_path, 'rb').readlines():
-            if pattern.match(line):
-                line = 'static const int IP_PACKET_DATA_SIZE = ' + self.pack + ';'
-                print('修改关键行：' + line)
-            lines.append(line)
-        open(local_path, 'wb').writelines(lines)
+        with open(local_path, 'rb') as file_:
+            for line in file_:
+                if pattern.match(line):
+                    line = 'static const int IP_PACKET_DATA_SIZE = ' + self.pack + ';'
+                    print('修改关键行：' + line)
+                lines.append(line)
+
+        with open(local_path, 'wb') as file_:
+            file_.writelines(lines)
+            
         sftp_cl.put(local_path, remote_path)
         sftp_cl.close()
         print('上传文件：' + remote_path)

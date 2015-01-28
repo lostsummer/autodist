@@ -7,6 +7,7 @@ class Cfg:
         self.cfg_file =     file_path
         self.source_host =  "10.10.10.134"
         self.source_dir =   "/usr/local/src/cplusplus/c/"
+        self.source_pack = '2200'
         self.dist_host =    "10.10.10.18"
         self.dist_need_auth = "1"
         self.dist_disk_type = "1"
@@ -18,6 +19,13 @@ class Cfg:
             cfg.read(self.cfg_file)
             self.source_host =      cfg.get('source', 'host')
             self.source_dir =       cfg.get('source', 'dir')
+            self.source_pack =      cfg.get('source', 'pack')           
+            
+            if int(self.source_pack) < 1500:
+                self.source_pack = '1500'
+            elif int(self.source_pack) > 8900:
+                self.source_pack = '8900'
+
             self.dist_host =        cfg.get('dist', 'host')
             self.dist_need_auth =   cfg.get('dist', 'need_auth')
             self.dist_disk_type =   cfg.get('dist', 'disk_type')
@@ -29,6 +37,7 @@ class Cfg:
     def printSourceInfo(self):
         print("%32s : %16s" %('编译机地址',         self.source_host))     
         print("%32s : %16s" %('编译机代码目录',     self.source_dir))
+        print("%32s : %16s" %('pack size',          self.source_pack))
         
     def printDistInfo(self):
         print("%32s : %16s" %('目标机地址',         self.dist_host))

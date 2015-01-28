@@ -27,5 +27,6 @@ setup(
     name = "Auto Dist",   
     options = options,   
     zipfile=None,   
-    console=script  
+    console=script,
+    data_files = ["autodist.cfg"]  
     )   

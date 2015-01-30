@@ -75,8 +75,6 @@ class PackProducer:
 
     def compile(self):
         print('开始制作安装包，需要2~3分钟时间...')
-        saved_stdout = os.dup(1)
-        log = open('make.log', 'w')
         cmd = 'cd ' + self.source_dir + 'shell/;' + './createInstall.sh'
         self.ssh_cl.exeCmd(cmd)
         print('编译授权程序')

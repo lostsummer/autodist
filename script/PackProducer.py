@@ -50,7 +50,7 @@ class PackProducer:
 
     def changePackSize(self):
         h_file = 'importance_para.h'
-        remote_path = self.source_dir + 'essential/include/' + h_file
+        remote_path = self.source_dir + 'c/essential/include/' + h_file
         local_path = './' + h_file
         sftp_cl = self.ssh_cl.getSftpCl()
         sftp_cl.get(remote_path, local_path)
@@ -75,16 +75,16 @@ class PackProducer:
 
     def compile(self):
         print('开始制作安装包，需要2~3分钟时间...')
-        cmd = 'cd ' + self.source_dir + 'shell/;' + './createInstall.sh'
+        cmd = 'cd ' + self.source_dir + 'c/shell/;' + './createInstall.sh'
         self.ssh_cl.exeCmd(cmd)
         print('编译授权程序')
-        cmd = 'cd ' + self.source_dir + 'authorize/;' + 'mkdir -p target;' + 'make'
+        cmd = 'cd ' + self.source_dir + 'c/authorize/;' + 'mkdir -p target;' + 'make'
         self.ssh_cl.exeCmd(cmd)
 
     def transToLocal(self):
         application_dir = '../application/'  
-        release_dir = os.path.join(self.source_dir, "release/")
-        auth_dir = os.path.join(self.source_dir, "authorize/target/")
+        release_dir = os.path.join(self.source_dir, "c/release/")
+        auth_dir = os.path.join(self.source_dir, "c/authorize/target/")
         print('远程安装包目录：' + release_dir)
         print('远程授权程序目录：' + auth_dir)
         print('本地目录：' + application_dir)

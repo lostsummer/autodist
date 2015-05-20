@@ -16,6 +16,7 @@ class PackUpdater:
         self.need_auth = cfg.dist_need_auth
         self.disk_type  = cfg.dist_disk_type
         self.nic_cnt = cfg.dist_nic_cnt
+        self.source_pack = cfg.source_pack
         self.application_dir = '../application/'
         self.c_tmp_dir = '/dev/shm/'
         self.webapps_dir = '/usr/share/tomcat6/webapps/'
@@ -43,18 +44,19 @@ class PackUpdater:
         print "断开 ssh 连接"
 
     def getNewestPack(self):
-        pack_name = ''
+        tar_name = ''
         files = os.listdir(self.application_dir)
-        if self.debian_version == '7':
-            pack_name_pattern = re.compile('installdir.+Debian7.+\.tgz')
-        else:
-            pack_name_pattern = re.compile('installdir.+Debian5.+\.tgz')
+        tar_name_pattern = re.compile('installdir\-v\d{8}\-Debian' 
+                + self.debian_version 
+                + '\-pack' 
+                + self.source_pack 
+                + '\.tgz')
 
         for f in files:
-            if pack_name_pattern.match(f) and cmp(f, pack_name) > 0:
-                pack_name = f
+            if tar_name_pattern.match(f) and cmp(f, tar_name) > 0:
+                tar_name = f
 
-        return pack_name
+        return tar_name
 
     def uploadAuth(self):
     	auth_local_path = self.application_dir + 'authorize'
@@ -78,11 +80,12 @@ class PackUpdater:
     def uploadC(self):
         auth_local_path = self.application_dir + 'authorize'
         auth_dist_path = self.c_tmp_dir + 'authorize'
-        packName = self.getNewestPack()
-        if packName == "":
+        tarName = self.getNewestPack()
+        if tarName == "":
             print "没有发现合适安装包"
             exit()
-        install_local_path = self.application_dir + packName
+        print('使用安装包：' + tarName)
+        install_local_path = self.application_dir + tarName
         install_dist_path = self.c_tmp_dir + 'installdir.tgz'
         print('上传安装包和授权程序...')
         sftp_cl = self.ssh_cl.getSftpCl()

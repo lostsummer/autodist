@@ -39,3 +39,5 @@ python脚本的目录结构是：
     nic_cnt=2
 
 其中 [source] 标签下为编译机的相关配置，[dist] 标签下为部署目标机的相关配置。
+
+> for test add some modify

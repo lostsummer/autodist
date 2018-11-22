@@ -1,17 +1,21 @@
 # autodist
 
-exe程序的目录结构是 ：  
- >     autodist─┬─application───maketgz.bat
+exe程序的目录结构是 ：
+```
+    autodist─┬─application───maketgz.bat
              └─   tools   ─┬─autodist.cfg
                            ├─dist.exe
                            └─getpack.exe
+```
 
 python脚本的目录结构是：
->     autodist─┬─application───maketgz.bat
+```
+    autodist─┬─application───maketgz.bat
              └─   script  ─┬─autodist.cfg
                            ├─dist.py
                            ├─getpack.py
                            └─*.py (其他py文件，非入口)
+```
 
 二者用法相同，getpack.exe(py) 从远程编译机执行 svn 更新代码和编译代码的命令，并待编译完成后将最新底层tgz安装包，bin 升级包， 授权程序 scp 到本地 application 目录中；dist.exe(py) 可以将 application 中的底层安装包上传到待部署目标机并执行安装。
 
